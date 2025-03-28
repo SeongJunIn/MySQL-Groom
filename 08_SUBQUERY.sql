@@ -34,15 +34,37 @@ select
 								where menu_name = '민트미역국');
 
 -- 서브쿼리
+select
+		count(*) as 'count'
+        from tbl_menu
+        group by category_code;
 
 
 -- 서브쿼리를 활용한 메인쿼리
-
+select
+		max(count)
+				from (select
+		count(*) as 'count'
+				from tbl_menu
+				group by category_code) as countmenu;
 
 -- 상관 서브쿼리
 -- 메인 쿼리가 서브쿼리의 결과에 영향을 주는 경우 상관 서브쿼리라고 한다.
 
--- 서브쿼리
 
+-- 서브쿼리
+select
+		avg(menu_price)
+        from tbl_menu;
 
 -- 전체 메뉴 평균가격 보다 높은 가격의 메뉴 전체 조회
+select
+		menu_code,
+        menu_name,
+        menu_price,
+        category_code,
+        orderable_status
+        from tbl_menu
+        where menu_price > (select
+									avg(menu_price)
+									from tbl_menu);
